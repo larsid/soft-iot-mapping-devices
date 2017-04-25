@@ -4,6 +4,9 @@ public class Sensor {
 	private String id;
 	private String type;
 	private Device device;
+	private int collection_time;
+	private int publishing_time;
+	
 	
 	public Sensor(){
 		
@@ -27,6 +30,24 @@ public class Sensor {
 	public void setDevice(Device device) {
 		this.device = device;
 	}
+
+	public int getCollection_time() {
+		return collection_time;
+	}
+
+	public void setCollection_time(int collection_time) {
+		this.collection_time = collection_time;
+	}
+
+	public int getPublishing_time() {
+		return publishing_time;
+	}
+
+	public void setPublishing_time(int publishing_time) {
+		this.publishing_time = publishing_time;
+	}
+	
+	
 	
 	
 }

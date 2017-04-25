@@ -28,7 +28,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Export-Package>br.ufba.dcc.wiser.fot.storage</Export-Package>
+						<Export-Package>br.ufba.dcc.wiser.soft_iot.*</Export-Package>
 						<Embed-Dependency>mqtt-client;scope=compile|runtimeinline=false</Embed-Dependency>
 						<Embed-Directory>target/dependency</Embed-Directory>
 						<Embed-StripGroup>true</Embed-StripGroup>
@@ -83,14 +83,6 @@
 
 	<!-- Dependencies -->
 
-	<repositories>
-		<repository>
-			<id>paho-mqtt-client</id>
-			<name>Paho MQTT Client</name>
-			<url>https://repo.eclipse.org/content/repositories/paho-releases/</url>
-		</repository>
-	</repositories>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.osgi</groupId>
@@ -123,11 +115,6 @@
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-spring</artifactId>
 			<version>2.16.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.paho</groupId>
-			<artifactId>mqtt-client</artifactId>
-			<version>0.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>

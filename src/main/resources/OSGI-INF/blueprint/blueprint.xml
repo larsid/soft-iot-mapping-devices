@@ -19,16 +19,22 @@
  http://cxf.apache.org/blueprint/jaxrs http://cxf.apache.org/schemas/blueprint/jaxrs.xsd
  http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd">
 
+	<service id="serviceController" ref="entitiesController"
+		interface="br.ufba.dcc.wiser.soft_iot.mapping_devices.Controller" />
 
-	<bean id="entitiesController" class="br.ufba.dcc.wiser.soft_iot.mapping_devices.Controller"
+	<bean id="entitiesController"
+		class="br.ufba.dcc.wiser.soft_iot.mapping_devices.ControllerImpl"
 		init-method="init">
-		<property name="listDevices" value="${DevicesConnected}" />
+		<property name="strJsonDevices" value="${DevicesConnected}" />
+		<property name="debugModeValue" value="${debugMode}" />
 	</bean>
 
-	<cm:property-placeholder persistent-id="br.ufba.dcc.wiser.soft_iot.gateway.mapping_devices"
+	<cm:property-placeholder
+		persistent-id="br.ufba.dcc.wiser.soft_iot.gateway.mapping_devices"
 		update-strategy="reload">
 		<cm:default-properties>
 			<cm:property name="DevicesConnected" value="[]" />
+			<cm:property name="debugMode" value="false" />
 		</cm:default-properties>
 	</cm:property-placeholder>
 
