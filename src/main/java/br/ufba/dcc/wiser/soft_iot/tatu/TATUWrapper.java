@@ -1,9 +1,12 @@
 package br.ufba.dcc.wiser.soft_iot.tatu;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import br.ufba.dcc.wiser.soft_iot.entities.Device;
@@ -12,7 +15,7 @@ import br.ufba.dcc.wiser.soft_iot.entities.SensorData;
 
 
 
-public final class Wrapper {
+public final class TATUWrapper {
 	
 	public static String topicBase = "dev/";
 	
@@ -52,14 +55,23 @@ public final class Wrapper {
 		return sensorId;
 	}
 	
-	public static List<SensorData> parseTATUAnswerToListSensorData(String answer, Device device, Sensor sensor){
+	public static List<SensorData> parseTATUAnswerToListSensorData(String answer, Sensor sensor, Date baseDate){
 		List<SensorData> listSensorData = new ArrayList<SensorData>();
 		
 		JSONObject json = new JSONObject(answer);
-		
-		
+		JSONArray sensorValues = json.getJSONObject("BODY").getJSONArray(
+				sensor.getId());
+		int collectTime = json.getJSONObject("BODY").getJSONObject("FLOW")
+				.getInt("collect");
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(baseDate);
+		for (int i = 0; i < sensorValues.length(); i++) {
+			String value = sensorValues.getString(i);
+			SensorData sensorData = new SensorData(sensor,value,calendar.getTime(),calendar.getTime());
+			listSensorData.add(sensorData);
+			calendar.add(Calendar.MILLISECOND, collectTime);
+		}
 		return listSensorData;
-		
 	}
 
 }
