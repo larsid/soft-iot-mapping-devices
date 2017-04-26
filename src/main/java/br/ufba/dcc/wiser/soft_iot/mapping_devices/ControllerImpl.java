@@ -24,7 +24,7 @@ public class ControllerImpl implements Controller{
 		loadConnectedDevices(this.strJsonDevices);
 	}
 	
-	public void loadConnectedDevices(String strDevices){
+	private void loadConnectedDevices(String strDevices){
 		List<Device> listDevices = new ArrayList<Device>();
 		try {
 			printlnDebug("JSON load:");
@@ -53,6 +53,14 @@ public class ControllerImpl implements Controller{
 			e.printStackTrace();
 		}
 		this.listDevices = listDevices;
+	}
+	
+	public Device getDeviceById(String deviceId){
+		for (Device device : listDevices ){
+			if(device.getId().contentEquals(deviceId))
+				return device;
+		}	
+		return null;		
 	}
 	
 	private void printlnDebug(String str){

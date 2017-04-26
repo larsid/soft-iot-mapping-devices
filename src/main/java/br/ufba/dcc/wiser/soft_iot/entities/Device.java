@@ -12,6 +12,14 @@ public class Device {
 		
 	}
 	
+	public Sensor getSensorbySensorId(String sensorId){
+		for(Sensor sensor : sensors){
+			if(sensor.getId().contentEquals(sensorId))
+				return sensor;
+		}
+		return null;
+	}
+	
 	public String getId() {
 		return id;
 	}
