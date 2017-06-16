@@ -55,7 +55,7 @@ public final class TATUWrapper {
 		return sensorId;
 	}
 	
-	public static List<SensorData> parseTATUAnswerToListSensorData(String answer, Sensor sensor, Date baseDate){
+	public static List<SensorData> parseTATUAnswerToListSensorData(String answer,Device device, Sensor sensor, Date baseDate){
 		List<SensorData> listSensorData = new ArrayList<SensorData>();
 		
 		JSONObject json = new JSONObject(answer);
@@ -67,7 +67,7 @@ public final class TATUWrapper {
 		calendar.setTime(baseDate);
 		for (int i = 0; i < sensorValues.length(); i++) {
 			String value = sensorValues.getString(i);
-			SensorData sensorData = new SensorData(sensor,value,calendar.getTime(),calendar.getTime());
+			SensorData sensorData = new SensorData(device, sensor,value,calendar.getTime(),calendar.getTime());
 			listSensorData.add(sensorData);
 			calendar.add(Calendar.MILLISECOND, collectTime);
 		}

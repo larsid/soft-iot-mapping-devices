@@ -1,9 +1,12 @@
 package br.ufba.dcc.wiser.soft_iot.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+
 public class Sensor {
 	private String id;
 	private String type;
-	private Device device;
 	private int collection_time;
 	private int publishing_time;
 	
@@ -23,12 +26,6 @@ public class Sensor {
 	}
 	public void setType(String type) {
 		this.type = type;
-	}
-	public Device getDevice() {
-		return device;
-	}
-	public void setDevice(Device device) {
-		this.device = device;
 	}
 
 	public int getCollection_time() {

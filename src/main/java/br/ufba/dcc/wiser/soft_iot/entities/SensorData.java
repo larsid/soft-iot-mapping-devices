@@ -1,10 +1,10 @@
 package br.ufba.dcc.wiser.soft_iot.entities;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 public class SensorData {
 	
+	private Device device;
 	private Sensor sensor;
 	private String value;
 	private Date startTime;
@@ -14,8 +14,9 @@ public class SensorData {
 		
 	}
 
-	public SensorData(Sensor sensor, String value, Date startTime,
+	public SensorData(Device device, Sensor sensor, String value, Date startTime,
 			Date endTime) {
+		this.device = device;
 		this.sensor = sensor;
 		this.value = value;
 		this.startTime = startTime;
@@ -50,9 +51,18 @@ public class SensorData {
 		return endTime;
 	}
 
-	public void setEndTime(Timestamp endTime) {
+	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
+
+	public Device getDevice() {
+		return device;
+	}
+
+	public void setDevice(Device device) {
+		this.device = device;
+	}
+	
 	
 
 }

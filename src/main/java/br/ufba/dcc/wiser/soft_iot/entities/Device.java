@@ -2,10 +2,16 @@ package br.ufba.dcc.wiser.soft_iot.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
+
 public class Device {
 	private String id;
 	private double latitude;
 	private double longitude;
+	@JsonIgnoreProperties("device")
 	private List<Sensor> sensors;
 	
 	public Device(){
