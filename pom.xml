@@ -29,7 +29,6 @@
 				<configuration>
 					<instructions>
 						<Export-Package>br.ufba.dcc.wiser.soft_iot.*</Export-Package>
-						<Embed-Dependency>mqtt-client;scope=compile|runtimeinline=false</Embed-Dependency>
 						<Embed-Directory>target/dependency</Embed-Directory>
 						<Embed-StripGroup>true</Embed-StripGroup>
 						<Embed-Transitive>true</Embed-Transitive>
@@ -95,27 +94,7 @@
 			<artifactId>json</artifactId>
 			<version>20140107</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-core</artifactId>
-			<version>3.1.4</version>
-		</dependency>
 		<!--Camel -->
-		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-core</artifactId>
-			<version>2.16.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-test</artifactId>
-			<version>2.16.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-spring</artifactId>
-			<version>2.16.2</version>
-		</dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.compendium</artifactId>
