@@ -8,7 +8,7 @@
 
 Before install the module do you need copy the configuration file in:
 ```
-fot-gateway-mapping-<devices/src/main/resources/br.ufba.dcc.wiser.soft_iot.gateway.mapping_devices.cfg
+fot-gateway-mapping-devices/src/main/resources/br.ufba.dcc.wiser.soft_iot.gateway.mapping_devices.cfg
 ```
 to:
 ```
