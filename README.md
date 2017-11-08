@@ -6,7 +6,7 @@
 <p>It was developed using Apache ServiceMix 6.1.1</p>
 
 
-<p>Before install the module do you need copy the configuration file in fot-gateway-mapping-_devices/src/main/resources/br.ufba.dcc.wiser.soft_iot.gateway.mapping_devices.cfg_ to _servicemix_directory_/etc</p>
+Before install the module do you need copy the configuration file in fot-gateway-mapping-<devices/src/main/resources/br.ufba.dcc.wiser.soft_iot.gateway.mapping_devices.cfg_ to _servicemix_directory_/etc
 
 <p>In this file you need configure what is the devices that is connected in your IoT system and the time (frequency) what you want to collect data<./p>
 
