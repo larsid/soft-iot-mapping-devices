@@ -5,8 +5,8 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>FoT-Gateway-Mapping-Device</name>
-	<artifactId>fot-gateway-mapping-devices</artifactId>
+	<name>SOFT-IoT-Mapping-Device</name>
+	<artifactId>soft-iot-mapping-devices</artifactId>
 	<description>Module of SOFT-IoT plataform to map FoT-Devices in FoT-Gateway</description>
 	<groupId>br.ufba.dcc.wiser.soft_iot</groupId>
 	<version>1.0.0</version>
