@@ -18,7 +18,7 @@ config:property-append org.ops4j.pax.url.mvn.repositories ", https://github.com/
 config:update
 bundle:install mvn:br.ufba.dcc.wiser.soft_iot/soft-iot-mapping-devices/1.0.0
 ```
-Before install the module do you need copy the configuration file in:
+Before install the module do you need copy the configuration file from src here in GitHub:
 ```
 soft-iot-mapping-devices/src/main/resources/br.ufba.dcc.wiser.soft_iot.gateway.mapping_devices.cfg
 ```
