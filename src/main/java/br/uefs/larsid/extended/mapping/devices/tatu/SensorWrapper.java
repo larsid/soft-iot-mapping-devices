@@ -2,7 +2,6 @@ package br.uefs.larsid.extended.mapping.devices.tatu;
 
 import br.ufba.dcc.wiser.soft_iot.entities.Sensor;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,16 +21,14 @@ public class SensorWrapper {
     }
 
     public static List<Sensor> getAllSensors(JSONArray sensors) {
-        return new LinkedList();
-//
-//        return (sensors == null || sensors.isEmpty())
-//                ? new ArrayList()
-//                : sensors.toList()
-//                        .stream()
-//                        .filter(Map.class::isInstance)
-//                        .map(Map.class::cast)
-//                        .map(SensorWrapper::toSensor)
-//                        .collect(Collectors.toList());
+        return (sensors == null || sensors.isEmpty())
+                ? new ArrayList()
+                : sensors.toList()
+                        .stream()
+                        .filter(Map.class::isInstance)
+                        .map(Map.class::cast)
+                        .map(SensorWrapper::toSensor)
+                        .collect(Collectors.toList());
     }
 
     public static List<String> getAllJSONSensor(List<Sensor> sensor) {

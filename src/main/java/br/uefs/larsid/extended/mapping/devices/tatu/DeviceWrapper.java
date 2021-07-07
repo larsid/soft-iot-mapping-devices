@@ -2,6 +2,7 @@ package br.uefs.larsid.extended.mapping.devices.tatu;
 
 import br.ufba.dcc.wiser.soft_iot.entities.Device;
 import br.ufba.dcc.wiser.soft_iot.entities.Sensor;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,11 +38,11 @@ public class DeviceWrapper {
 
     public static Device toDevice(Map device) {
         String id = (String) device.getOrDefault("id", INVALID_DEVICE);
-        Double longitude = (Double) device.getOrDefault("longitude", 0);
-        Double latitude = (Double) device.getOrDefault("latitude", 0);
+        BigDecimal longitude = (BigDecimal) device.getOrDefault("longitude", 0);
+        BigDecimal latitude = (BigDecimal) device.getOrDefault("latitude", 0);
         List sensors = (ArrayList) device.getOrDefault("sensors", Collections.emptyList());
         List<Sensor> allSensors = SensorWrapper.getAllSensors(sensors);
-        return new Device(id, longitude, latitude, allSensors);
+        return new Device(id, longitude.doubleValue(), latitude.doubleValue(), allSensors);
     }
 
     public static Device toDevice(JSONObject device) {
