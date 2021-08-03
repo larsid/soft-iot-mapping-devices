@@ -73,6 +73,7 @@ public class ControllerImpl implements Controller {
         this.strJsonDevices = strJsonDevices;
     }
 
+    @Override
     public List<Device> getListDevices() {
         return listDevices;
     }

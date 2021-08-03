@@ -26,7 +26,8 @@
             <cm:property name="DevicesConnected" value="[]" />
             <cm:property name="debugMode" value="false" />
             <cm:property name="MappingDevicePID" value="br.ufba.dcc.wiser.soft_iot.gateway.mapping_devices"/>
-            <cm:property name="PropertyKey" value="DevicesConnected"/>   
+            <cm:property name="Connected" value="DevicesConnected"/>   
+            <cm:property name="Removed" value="RemovedDevices"/>   
         </cm:default-properties>
     </cm:property-placeholder>
         
@@ -51,7 +52,8 @@
         id="devicePropertiesManager"
         class="br.uefs.larsid.extended.mapping.devices.model.DevicePropertiesManager">
         <argument value="${MappingDevicePID}"/>
-        <argument value="${PropertyKey}"/>
+        <argument value="${Connected}"/>
+        <argument value="${Removed}"/>
         <property name="pidEditor" ref="pidEditor"/>
     </bean>
 </blueprint>

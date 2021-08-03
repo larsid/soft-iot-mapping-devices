@@ -21,13 +21,15 @@ import org.json.JSONArray;
  */
 public class DevicePropertiesManager implements IDevicePropertiesManager {
 
-    private String mappingDevicePID;
-    private String propertyKey;
+    private final String mappingDevicePID;
+    private final String connected;
+    private final String removed;
     private IPIDEditor pidEditor;
 
-    public DevicePropertiesManager(String mappingDevicePID, String propertyKey) {
+    public DevicePropertiesManager(String mappingDevicePID, String connected, String removed) {
         this.mappingDevicePID = mappingDevicePID;
-        this.propertyKey = propertyKey;
+        this.connected = connected;
+        this.removed = removed;
     }
 
     public void setPidEditor(IPIDEditor pidEditor) {
@@ -36,19 +38,16 @@ public class DevicePropertiesManager implements IDevicePropertiesManager {
 
     @Override
     public void addDevice(Device device) throws IOException {
-        try {
-            Optional<Object> property = pidEditor.getProperty(mappingDevicePID, propertyKey);
-            String devicesConnected = (String) property.get();
-            JSONArray devices = new JSONArray(devicesConnected);
-            devices.put(DeviceWrapper.toJSONObject(device));
-            this.pidEditor.updateProperty(mappingDevicePID, propertyKey, devices.toString());
-        } catch (IOException ex) {
-        }
+        Optional<Object> property = pidEditor.getProperty(mappingDevicePID, connected);
+        String devicesConnected = (String) property.get();
+        JSONArray devices = new JSONArray(devicesConnected);
+        devices.put(DeviceWrapper.toJSONObject(device));
+        this.pidEditor.updateProperty(mappingDevicePID, connected, devices.toString());
     }
 
     @Override
     public List<Device> getAllDevices() throws IOException {
-        return this.getDevicesInPIDFile();
+        return this.getDevicesInPIDFile(connected);
     }
 
     @Override
@@ -60,7 +59,7 @@ public class DevicePropertiesManager implements IDevicePropertiesManager {
 
     @Override
     public void updateDevice(String deviceId, Device device) throws IOException {
-        List<Device> devices = this.getDevicesInPIDFile();
+        List<Device> devices = this.getDevicesInPIDFile(connected);
         if (!devices.isEmpty()) {
             devices.stream()
                     .filter(currentDevice -> !currentDevice.getId().equals(deviceId))
@@ -68,15 +67,44 @@ public class DevicePropertiesManager implements IDevicePropertiesManager {
         }
         devices.add(device);
         String jsonArray = new JSONArray(devices).toString();
-        this.pidEditor.updateProperty(mappingDevicePID, propertyKey, jsonArray);
+        this.pidEditor.updateProperty(mappingDevicePID, connected, jsonArray);
     }
 
     @Override
     public boolean removeDevice(String deviceId) throws IOException {
-        List<Device> devices = this.getDevicesInPIDFile();
-        boolean wasRemoved = devices.removeIf(device -> device.getId().equals(deviceId));
-        String jsonArray = new JSONArray(devices).toString();
-        this.pidEditor.updateProperty(mappingDevicePID, propertyKey, jsonArray);
+        Optional<Map<String, Object>> optProperties = this.pidEditor.getProperties(mappingDevicePID);
+        if (!optProperties.isPresent()) {
+            return false;
+        }
+        Map<String, Object> properties = optProperties.get();
+        String sDevice = (String) properties.getOrDefault(connected, "");
+        if (sDevice.isEmpty()) {
+            return false;
+        }
+        List<Device> connectedDevices = DeviceWrapper.getAllDevices(sDevice);
+        if (connectedDevices.isEmpty()) {
+            return false;
+        }
+        Optional<Device> optDevice = connectedDevices.stream()
+                .filter(device -> device.getId().equals(deviceId))
+                .findAny();
+        if (!optDevice.isPresent()) {
+            return false;
+        }
+        Device device = optDevice.get();
+        boolean wasRemoved = connectedDevices.remove(device);
+        if (!wasRemoved) {
+            return false;
+        }
+        sDevice = (String) properties.getOrDefault(removed, "");
+        List<Device> removedDevices = sDevice.isEmpty()
+                ? new ArrayList(1)
+                : DeviceWrapper.getAllDevices(sDevice);
+        removedDevices.add(device);
+        String connectedUpdated = new JSONArray(connectedDevices).toString();
+        String removedUpdated = new JSONArray(removedDevices).toString();
+        properties = (Map<String, Object>) List.of(connected, connectedUpdated, removed, removedUpdated);
+        this.pidEditor.updateProperties(mappingDevicePID, properties);
         return wasRemoved;
     }
 
@@ -84,15 +112,15 @@ public class DevicePropertiesManager implements IDevicePropertiesManager {
     public void removeAll() throws IOException {
         String emptyJSONArray = new JSONArray().toString();
         try {
-            pidEditor.updateProperty(mappingDevicePID, propertyKey, emptyJSONArray);
+            pidEditor.updateProperty(mappingDevicePID, connected, emptyJSONArray);
         } catch (IOException ex) {
             Logger.getLogger(DevicePropertiesManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private List<Device> getDevicesInPIDFile() throws IOException {
+    private List<Device> getDevicesInPIDFile(String property) throws IOException {
         try {
-            Optional<Object> stringOptional = this.pidEditor.getProperty(mappingDevicePID, propertyKey);
+            Optional<Object> stringOptional = this.pidEditor.getProperty(mappingDevicePID, property);
             if (stringOptional.isPresent()) {
                 String array = (String) stringOptional.get();
                 return DeviceWrapper.getAllDevices(array);
@@ -100,7 +128,8 @@ public class DevicePropertiesManager implements IDevicePropertiesManager {
         } catch (IOException ex) {
             Map<String, Object> properties = new HashMap();
             String emptyJSONArray = new JSONArray().toString();
-            properties.put(propertyKey, emptyJSONArray);
+            properties.put(connected, emptyJSONArray);
+            properties.put(removed, emptyJSONArray);
             properties.put("debugMode", false);
             pidEditor.createPIDFile(mappingDevicePID, properties);
         }
