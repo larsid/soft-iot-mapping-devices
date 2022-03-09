@@ -106,12 +106,6 @@ public class DevicePropertiesManager implements IDevicePropertiesManager {
         removedDevices.add(device);
         String connectedUpdated = new JSONArray(connectedDevices).toString();
         String removedUpdated = new JSONArray(removedDevices).toString();
-//        properties = (Map<String, Object>) List.of(connected, connectedUpdated, removed, removedUpdated);
-        
-        // Conected (key) -> connectedUpdated (value) | removed -> removedUpdated | map com duas chaves
-        
-        
-//        properties = (Map<String, Object>) Arrays.asList(connected, connectedUpdated, removed, removedUpdated);
         
         properties = Stream.of(new Object[][] { 
             { connected, connectedUpdated }, 
