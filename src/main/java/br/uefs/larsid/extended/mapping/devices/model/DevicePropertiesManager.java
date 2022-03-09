@@ -6,6 +6,7 @@ import br.uefs.larsid.extended.mapping.devices.tatu.DeviceWrapper;
 import br.ufba.dcc.wiser.soft_iot.entities.Device;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,8 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.json.JSONArray;
 
 /**
@@ -103,7 +106,18 @@ public class DevicePropertiesManager implements IDevicePropertiesManager {
         removedDevices.add(device);
         String connectedUpdated = new JSONArray(connectedDevices).toString();
         String removedUpdated = new JSONArray(removedDevices).toString();
-        properties = (Map<String, Object>) List.of(connected, connectedUpdated, removed, removedUpdated);
+//        properties = (Map<String, Object>) List.of(connected, connectedUpdated, removed, removedUpdated);
+        
+        // Conected (key) -> connectedUpdated (value) | removed -> removedUpdated | map com duas chaves
+        
+        
+//        properties = (Map<String, Object>) Arrays.asList(connected, connectedUpdated, removed, removedUpdated);
+        
+        properties = Stream.of(new Object[][] { 
+            { connected, connectedUpdated }, 
+            { removed, removedUpdated }, 
+        }).collect(Collectors.toMap(data -> (String) data[0], data -> (Object) data[1]));
+        
         this.pidEditor.updateProperties(mappingDevicePID, properties);
         return wasRemoved;
     }
