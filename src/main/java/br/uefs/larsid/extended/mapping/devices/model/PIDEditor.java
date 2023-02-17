@@ -12,6 +12,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
+import java.util.logging.Logger;
 
 public class PIDEditor implements IPIDEditor {
 
@@ -94,12 +95,14 @@ public class PIDEditor implements IPIDEditor {
   }
 
   private void listProperties(String pid) throws IOException {
+    Logger log = Logger.getLogger(PIDEditor.class.getName());
+
     this.getProperties(pid)
       .ifPresent(
         map -> {
           map.forEach(
             (k, v) -> {
-              System.out.println(k + " = " + v);
+              log.info(k + " = " + v);
             }
           );
         }

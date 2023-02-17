@@ -3,6 +3,7 @@ package br.ufba.dcc.wiser.soft_iot.mapping_devices;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,6 +19,7 @@ public class ControllerImpl implements Controller {
     private List<Device> listDevices;
     private String strJsonDevices;
     private boolean debugModeValue;
+    private Logger log;
 
     public void init() {
         printlnDebug("Starting mapping of connected devices...");
@@ -46,9 +48,9 @@ public class ControllerImpl implements Controller {
                 device.setSensors(listSensors);
             }
         } catch (JsonParseException e) {
-            System.out.println("Verify the correct format of 'DevicesConnected' property in configuration file.");
+            this.log.info("Verify the correct format of 'DevicesConnected' property in configuration file.");
         } catch (JsonMappingException e) {
-            System.out.println("Verify the correct format of 'DevicesConnected' property in configuration file.");
+            this.log.info("Verify the correct format of 'DevicesConnected' property in configuration file.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,7 +67,7 @@ public class ControllerImpl implements Controller {
 
     private void printlnDebug(String str) {
         if (debugModeValue) {
-            System.out.println(str);
+            this.log.info(str);
         }
     }
 
