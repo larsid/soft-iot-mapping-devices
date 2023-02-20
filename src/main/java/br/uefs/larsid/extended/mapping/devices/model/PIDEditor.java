@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 public class PIDEditor implements IPIDEditor {
 
   private ConfigurationAdmin configurationAdmin;
+  private static final Logger logger = Logger.getLogger(PIDEditor.class.getName());
 
   public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
     this.configurationAdmin = configurationAdmin;
@@ -95,14 +96,12 @@ public class PIDEditor implements IPIDEditor {
   }
 
   private void listProperties(String pid) throws IOException {
-    Logger log = Logger.getLogger(PIDEditor.class.getName());
-
     this.getProperties(pid)
       .ifPresent(
         map -> {
           map.forEach(
             (k, v) -> {
-              log.info(k + " = " + v);
+              logger.info(k + " = " + v);
             }
           );
         }

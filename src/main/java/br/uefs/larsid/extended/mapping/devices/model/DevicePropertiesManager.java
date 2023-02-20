@@ -28,6 +28,7 @@ public class DevicePropertiesManager implements IDevicePropertiesManager {
     private final String connected;
     private final String removed;
     private IPIDEditor pidEditor;
+    private static final Logger logger = Logger.getLogger(DevicePropertiesManager.class.getName());
 
     public DevicePropertiesManager(String mappingDevicePID, String connected, String removed) {
         this.mappingDevicePID = mappingDevicePID;
@@ -122,7 +123,7 @@ public class DevicePropertiesManager implements IDevicePropertiesManager {
         try {
             pidEditor.updateProperty(mappingDevicePID, connected, emptyJSONArray);
         } catch (IOException ex) {
-            Logger.getLogger(DevicePropertiesManager.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
     }
 

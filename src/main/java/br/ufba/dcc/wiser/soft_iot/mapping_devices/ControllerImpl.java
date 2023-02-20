@@ -19,7 +19,7 @@ public class ControllerImpl implements Controller {
     private List<Device> listDevices;
     private String strJsonDevices;
     private boolean debugModeValue;
-    private Logger log;
+    private static final Logger logger = Logger.getLogger(ControllerImpl.class.getName());
 
     public void init() {
         printlnDebug("Starting mapping of connected devices...");
@@ -48,9 +48,9 @@ public class ControllerImpl implements Controller {
                 device.setSensors(listSensors);
             }
         } catch (JsonParseException e) {
-            this.log.info("Verify the correct format of 'DevicesConnected' property in configuration file.");
+            logger.info("Verify the correct format of 'DevicesConnected' property in configuration file.");
         } catch (JsonMappingException e) {
-            this.log.info("Verify the correct format of 'DevicesConnected' property in configuration file.");
+            logger.info("Verify the correct format of 'DevicesConnected' property in configuration file.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,7 +67,7 @@ public class ControllerImpl implements Controller {
 
     private void printlnDebug(String str) {
         if (debugModeValue) {
-            this.log.info(str);
+            logger.info(str);
         }
     }
 
