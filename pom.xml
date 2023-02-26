@@ -8,9 +8,66 @@
     <name>SOFT-IoT-Mapping-Device</name>
     <artifactId>soft-iot-mapping-devices</artifactId>
     <description>Module of SOFT-IoT plataform to map FoT-Devices in FoT-Gateway</description>
-    <groupId>br.ufba.dcc.wiser.soft_iot</groupId>
+    <groupId>io.github.larsid</groupId>
     <version>1.0.0</version>
     <packaging>bundle</packaging>
+    <url>https://github.com/larsid/soft-iot-dlt-id-manager</url>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+     <developers>
+        <developer>
+            <name>Uellington Damasceno</name>
+            <email>udamasceno@ecomp.uefs.br</email>
+            <organization>LARSID</organization>
+            <organizationUrl>https://github.com/larsid/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Allan Capistrano de Santana Santos</name>
+            <email>asantos@ecomp.uefs.br</email>
+            <organization>LARSID</organization>
+            <organizationUrl>https://github.com/larsid/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Jeferson Lima</name>
+            <email>oi_je@hotmail.com</email>
+            <organization>LARSID</organization>
+            <organizationUrl>https://github.com/larsid/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Cassio Prazeres</name>
+            <email>prazeres@ufba.br</email>
+            <organization>WiserUFBA</organization>
+            <organizationUrl>https://github.com/WiserUFBA</organizationUrl>
+        </developer>
+        <developer>
+            <name>Leandro Andrade</name>
+            <email>leojsandrade@gmail.com</email>
+            <organization>WiserUFBA</organization>
+            <organizationUrl>https://github.com/WiserUFBA/</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/larsid/soft-iot-mapping-devices.git</connection>
+        <developerConnection>scm:git:ssh://github.com:larsid/soft-iot-mapping-devices.git</developerConnection>
+        <url>http://github.com/larsid/soft-iot-mapping-devices/tree/master</url>
+    </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -71,6 +128,35 @@
                         <goals>
                             <goal>deploy</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                    <id>sign-artifacts</id>
+                    <phase>verify</phase>
+                    <goals>
+                        <goal>sign</goal>
+                    </goals>
+                    <configuration>
+                        <skip>true</skip>
+                        <keyname>${env.GPG_KEYNAME}</keyname>
+                    </configuration>
                     </execution>
                 </executions>
             </plugin>
