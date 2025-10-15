@@ -6,7 +6,6 @@ import br.uefs.larsid.extended.mapping.devices.tatu.DeviceWrapper;
 import br.ufba.dcc.wiser.soft_iot.entities.Device;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +45,19 @@ public class DevicePropertiesManager implements IDevicePropertiesManager {
         JSONArray devices = new JSONArray(devicesConnected);
         devices.put(DeviceWrapper.toJSONObject(device));
         this.pidEditor.updateProperty(mappingDevicePID, connected, devices.toString());
+    }
+
+    @Override
+    public void addAllDevices(List<Device> devices) throws IOException {
+        Optional<Object> property = pidEditor.getProperty(mappingDevicePID, connected);
+        String devicesConnected = (String) property.get();
+        JSONArray devicesJson = new JSONArray(devicesConnected);
+        
+        for (Device device : devices) {
+            devicesJson.put(DeviceWrapper.toJSONObject(device));
+        }
+        
+        this.pidEditor.updateProperty(mappingDevicePID, connected, devicesJson.toString());
     }
 
     @Override
@@ -106,12 +118,11 @@ public class DevicePropertiesManager implements IDevicePropertiesManager {
         removedDevices.add(device);
         String connectedUpdated = new JSONArray(connectedDevices).toString();
         String removedUpdated = new JSONArray(removedDevices).toString();
-        
-        properties = Stream.of(new Object[][] { 
-            { connected, connectedUpdated }, 
-            { removed, removedUpdated }, 
-        }).collect(Collectors.toMap(data -> (String) data[0], data -> (Object) data[1]));
-        
+
+        properties = Stream.of(new Object[][]{
+            {connected, connectedUpdated},
+            {removed, removedUpdated},}).collect(Collectors.toMap(data -> (String) data[0], data -> (Object) data[1]));
+
         this.pidEditor.updateProperties(mappingDevicePID, properties);
         return wasRemoved;
     }

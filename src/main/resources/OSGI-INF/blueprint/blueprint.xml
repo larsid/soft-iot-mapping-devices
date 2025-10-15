@@ -8,30 +8,22 @@
  http://cxf.apache.org/blueprint/jaxws http://cxf.apache.org/schemas/blueprint/jaxws.xsd
  http://cxf.apache.org/blueprint/jaxrs http://cxf.apache.org/schemas/blueprint/jaxrs.xsd
  http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd">
-
+    
+    <bean id="entitiesController"
+          class="br.ufba.dcc.wiser.soft_iot.mapping_devices.ControllerImpl"
+          init-method="init" />
+          
+    <service ref="entitiesController" interface="org.osgi.service.cm.ManagedService">
+        <service-properties>
+            <entry key="service.pid" value="br.ufba.dcc.wiser.soft_iot.gateway.mapping_devices" />
+        </service-properties>
+    </service>
+    
     <service id="serviceController" ref="entitiesController"
              interface="br.ufba.dcc.wiser.soft_iot.mapping_devices.Controller" />
 
-    <bean id="entitiesController"
-          class="br.ufba.dcc.wiser.soft_iot.mapping_devices.ControllerImpl"
-          init-method="init">
-        <property name="strJsonDevices" value="${DevicesConnected}" />
-        <property name="debugModeValue" value="${debugMode}" />
-    </bean>
-        
-    <cm:property-placeholder
-        persistent-id="br.ufba.dcc.wiser.soft_iot.gateway.mapping_devices"
-        update-strategy="reload">
-        <cm:default-properties>
-            <cm:property name="DevicesConnected" value="[]" />
-            <cm:property name="debugMode" value="false" />
-            <cm:property name="MappingDevicePID" value="br.ufba.dcc.wiser.soft_iot.gateway.mapping_devices"/>
-            <cm:property name="Connected" value="DevicesConnected"/>   
-            <cm:property name="Removed" value="RemovedDevices"/>   
-        </cm:default-properties>
-    </cm:property-placeholder>
-        
     <reference id="configAdmin" interface="org.osgi.service.cm.ConfigurationAdmin" />
+    
     <service 
         id="IPIDEditorService"
         ref="pidEditor"
@@ -51,9 +43,9 @@
     <bean
         id="devicePropertiesManager"
         class="br.uefs.larsid.extended.mapping.devices.model.DevicePropertiesManager">
-        <argument value="${MappingDevicePID}"/>
-        <argument value="${Connected}"/>
-        <argument value="${Removed}"/>
+        <argument value="br.ufba.dcc.wiser.soft_iot.gateway.mapping_devices"/>
+        <argument value="DevicesConnected"/>
+        <argument value="RemovedDevices"/>
         <property name="pidEditor" ref="pidEditor"/>
     </bean>
 </blueprint>

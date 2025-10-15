@@ -13,6 +13,8 @@ public interface IDevicePropertiesManager {
 
     public void addDevice(Device device) throws IOException;
 
+    public void addAllDevices(List<Device> devices) throws IOException;
+    
     public Optional<Device> getDevice(String deviceId) throws IOException;
 
     public List<Device> getAllDevices() throws IOException;
